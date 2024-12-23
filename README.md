@@ -1,4 +1,4 @@
-# Home to School Transport. Demand forecasing and Resource Allocation
+# Home to School Transport<br> Demand forecasing and Resource Allocation
 
 This project aims to develop a robust and adaptable resourcing model for Home To School Transport, focusing on the core activities of eligibility, delivery, complaints, and appeals. By analyzing historical service data, critical path points, and known seasonal fluctuations, the model will predict future resource needs (permanent, fixed-term, and bank staff) across these activities.
 
@@ -8,7 +8,7 @@ This project aims to develop a robust and adaptable resourcing model for Home To
 
 ### Prerequisites
 
-* Python 3.x ( рекомендуется / recommended: 3.8 or later)
+* Python 3.12
 * pip (package installer for Python)
 
 ### Installation
@@ -30,3 +30,5 @@ cd path/to/h2s_demand_forecat
 ```bash
 pip install -r requirements.txt
 ```
+### Train a forecatser
+### Forecast with a trained model
