@@ -1,6 +1,6 @@
 # Home to School Transport. Demand forecasing and Resource Allocation
 
-This project aims to develop a robust and adaptable resourcing model for Home To School Transport at Surrey County Council, focusing on the core activities of eligibility, delivery, complaints, and appeals. By analyzing historical service data, critical path points, and known seasonal fluctuations, the model will predict future resource needs (permanent, fixed-term, and bank staff) across these activities.
+This project aims to develop a robust and adaptable resourcing model for Home To School Transport, focusing on the core activities of eligibility, delivery, complaints, and appeals. By analyzing historical service data, critical path points, and known seasonal fluctuations, the model will predict future resource needs (permanent, fixed-term, and bank staff) across these activities.
 
 ## Model Overview
 ![Model Overview](assets/Model_Overview.jpg)
@@ -16,4 +16,17 @@ This project aims to develop a robust and adaptable resourcing model for Home To
 1. Clone the repository:
 
 ```bash
-git clone [https://github.com/](https://github.com/)<your-username>/<project-name>.git
+git clone https://github.com/ehsantaati/h2s_demand_forecast.git
+```
+2. Create the Python environment on Anaconda (optional):
+```bash
+conda create --name h2st python=3.12
+
+conda activate h2st
+
+cd path/to/h2s_demand_forecat
+```
+3. Install required packages:
+```bash
+pip install -r requirements.txt
+```
