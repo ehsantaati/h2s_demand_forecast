@@ -53,7 +53,7 @@ To start forecasting pipeline execute the following command in the command line:
 
 The results will be saved in the ```output``` directory recognisable with ```model_id```.
 
-### Prameters
+### Parameters
 ```model_id```: Model name which all the model's output will be identified with.<br>
 ```test_size```: The number of months used to create the test set and evaluate model performance defaults to 6.<br>
 ```date_column```: Name of the column containing dates in the data.<br>
