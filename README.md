@@ -35,6 +35,7 @@ pip install -r requirements.txt
 The forecasting model utilises Prophet, which undergoes automatic training via cross-validation to tune its hyperparameters. The entire pipeline is designed to be automated, encompassing data preparation, splitting, model training, and performance evaluation. To train the model, the following steps should be adhered to:
 1. The pipeline consumes daily recorded data and transforms it into a monthly time series. To achieve this, configure the ```model_id``` and ```date_column``` parameters in ```config/config.json``` according to the data. The data should be provided in an Excel format and placed within the ```data```directory.
 2. To start training process execute the following command in the command line:
+
     ```bash
     python -m train
     ```
@@ -42,10 +43,11 @@ The training process can be time-consuming, depending on the dataset size. Upon 
 ### Forecast with a trained model
 To perform forecasts with a trained model, the path to the trained model file (```model_path```) is required. Two optional parameters can be adjusted based on the training pipeline settings:
 
-```horizon```: This parameter specifies the number of future months to forecast. It defaults to 6 months.
+```horizon```: This parameter specifies the number of future months to forecast. It defaults to 6 months.<br>
 ```normalize```: This parameter should be set to the same value used during model training to maintain consistency.
 
 To start forecasting pipeline execute the following command in the command line:
+
     ```bash
     python -m forecast --model_path ./models/[model_id].joblib
     ```
