@@ -2,6 +2,7 @@
 
 This project aims to develop a robust and adaptable resourcing model for Home To School Transport, focusing on the core activities of eligibility, delivery, complaints, and appeals. By analyzing historical service data, critical path points, and known seasonal fluctuations, the model will predict future resource needs (permanent, fixed-term, and bank staff) across these activities.
 
+
 ## Model Overview
 ![Model Overview](assets/Model_Overview.jpg)
 ## Getting Started
@@ -31,4 +32,11 @@ cd path/to/h2s_demand_forecat
 pip install -r requirements.txt
 ```
 ### Train a forecatser
+The forecasting model utilises Prophet, which undergoes automatic training via cross-validation to tune its hyperparameters. The entire pipeline is designed to be automated, encompassing data preparation, splitting, model training, and performance evaluation. To train the model, the following steps should be adhered to:
+1. The pipeline consumes daily recorded data and transforms it into a monthly time series. To achieve this, configure the ```model_id``` and ```date_column``` parameters in ```config/config.json``` according to the data. The data should be provided in an Excel format and placed within the ```data```directory.
+2. To start training process execute the following command in the command line:
+```bash
+python -m train
+```
+The training process can be time-consuming, depending on the dataset size. Upon completion, the trained model will be saved in the designated ```model``` directory recognisable with the provided ```model_id```, and the corresponding evaluation results will be written to the ```output``` directory.
 ### Forecast with a trained model
