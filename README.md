@@ -52,3 +52,13 @@ To start forecasting pipeline execute the following command in the command line:
     ```
 
 The results will be saved in the ```output``` directory recognisable with ```model_id```.
+
+### Prameters
+```model_id```: Model name which all the model's output will be identified with.<br>
+```test_size```: The number of months used to create the test set and evaluate model performance defaults to 6.<br>
+```date_column```: Name of the column containing dates in the data.<br>
+```normalize```: This parameter determines whether the logarithm of the time series values should be included in the model. It is recommended to set this to True when outliers are present in the data. The default value is ```False```.<br>
+The following options are for the Prophet model for Cross-Validation. These values have been determined based on experiments conducted on the available data.<br>
+```initial```: 365 days<br>
+```period```: 30 days<br>
+```horizon```: 90 days<br>
