@@ -47,7 +47,7 @@ To perform forecasts with a trained model, the path to the trained model file (`
 ```normalize```: This parameter should be set to the same value used during model training to maintain consistency.
 
 To start forecasting pipeline execute the following command in the command line:<br>
-    ```bash
+    ```
     python -m forecast --model_path ./models/[model_id].joblib
     ```
 
