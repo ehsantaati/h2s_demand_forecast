@@ -32,7 +32,7 @@ cd path/to/h2s_demand_forecat
 pip install -r requirements.txt
 ```
 ### Train a forecatser
-The forecasting model utilises Prophet, which undergoes automatic training via cross-validation to tune its hyperparameters. The entire pipeline is designed to be automated, encompassing data preparation, splitting, model training, and performance evaluation. To train the model, the following steps should be adhered to:
+The forecasting model utilises [Prophet](https://facebook.github.io/prophet/), which undergoes automatic training via cross-validation to tune its hyperparameters. The entire pipeline is designed to be automated, encompassing data preparation, splitting, model training, and performance evaluation. To train the model, the following steps should be adhered to:
 1. The pipeline consumes daily recorded data and transforms it into a monthly time series. To achieve this, configure the ```model_id``` and ```date_column``` parameters in ```config/config.json``` according to the data. The data should be provided in an Excel format and placed within the ```data```directory.
 2. To start training process execute the following command in the command line:
 
