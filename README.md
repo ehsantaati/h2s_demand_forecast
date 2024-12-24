@@ -46,10 +46,7 @@ To perform forecasts with a trained model, the path to the trained model file (`
 ```horizon```: This parameter specifies the number of future months to forecast. It defaults to 6 months.<br>
 ```normalize```: This parameter should be set to the same value used during model training to maintain consistency.
 
-To start forecasting pipeline execute the following command in the command line:
-    ```bash
-    python -m train
-    ```
+To start forecasting pipeline execute the following command in the command line:<br>
     ```bash
     python -m forecast --model_path ./models/[model_id].joblib
     ```
