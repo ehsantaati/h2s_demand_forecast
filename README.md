@@ -1,4 +1,5 @@
-# Home to School Transport<br> Demand forecasing and Resource Allocation
+<h1 style="text-align: center;">Demand forecasing and Resource Allocation</h1>
+<h1 style="text-align: center;">Home to School Transport Service</h1>
 
 This project aims to develop a robust and adaptable resourcing model for Home To School Transport, focusing on the core activities of eligibility, delivery, complaints, and appeals. By analyzing historical service data, critical path points, and known seasonal fluctuations, the model will predict future resource needs (permanent, fixed-term, and bank staff) across these activities.
 
