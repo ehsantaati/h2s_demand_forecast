@@ -20,7 +20,7 @@ This project aims to develop a robust and adaptable resourcing model for Home To
 ```bash
 git clone https://github.com/ehsantaati/h2s_demand_forecast.git
 ```
-2. Create the Python environment on Anaconda (optional):
+2. Create the Python environment on Anaconda:
 ```bash
 conda create --name h2st python=3.12
 
