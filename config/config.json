@@ -4,5 +4,5 @@
     "initial": "365 days", 
     "period" : "30 days", 
     "horizon":"90 days",
-    "normalize":"True"
+    "normalize":"False"
 }
