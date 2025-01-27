@@ -5,3 +5,4 @@ __pycache__/
 data_arch/
 h2st/
 .vscode/
+tocheckgitignore/*
