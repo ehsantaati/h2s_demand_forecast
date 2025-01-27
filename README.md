@@ -49,9 +49,9 @@ To perform forecasts with a trained model, the path to the trained model file (`
 
 To start forecasting pipeline execute the following command in the command line:<br>
     ```
-    python -m forecast
+    python -m forecast 
     ```
-
+u
 The results will be saved in the ```output``` directory recognisable with ```model_id```.
 
 ### Parameters

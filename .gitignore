@@ -1,9 +1,7 @@
-data/
-models/
-output/
+data/*
+models/*
+output/*
 __pycache__/
 data_arch/
 h2st/
-!data/*
-!models/*
-!output/*
+.vscode/
