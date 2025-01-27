@@ -4,5 +4,5 @@ output/*
 __pycache__/
 data_arch/
 h2st/
-.vscode/*
+./vscode/*
 tocheckgitignore/
