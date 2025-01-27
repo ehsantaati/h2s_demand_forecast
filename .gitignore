@@ -1,9 +1,9 @@
-data/*
-models/*
-output/*
+data/
+models/
+output/
 __pycache__/
 data_arch/
 h2st/
-!data/.gitignore
-!models/.gitignore
-!output/.gitignore
+!data/*
+!models/*
+!output/*

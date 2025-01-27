@@ -45,11 +45,11 @@ The training process can be time-consuming, depending on the dataset size. Upon 
 To perform forecasts with a trained model, the path to the trained model file (```model_path```) is required. Two optional parameters can be adjusted based on the training pipeline settings:
 
 ```horizon```: This parameter specifies the number of future months to forecast. It defaults to 6 months.<br>
-```normalize```: This parameter should be set to the same value used during model training to maintain consistency.
+
 
 To start forecasting pipeline execute the following command in the command line:<br>
     ```
-    python -m forecast --model_path ./models/[model_id].joblib
+    python -m forecast
     ```
 
 The results will be saved in the ```output``` directory recognisable with ```model_id```.
@@ -58,7 +58,7 @@ The results will be saved in the ```output``` directory recognisable with ```mod
 ```model_id```: Model name which all the model's output will be identified with.<br>
 ```test_size```: The number of months used to create the test set and evaluate model performance defaults to 6.<br>
 ```date_column```: Name of the column containing dates in the data.<br>
-```normalize```: This parameter determines whether the logarithm of the time series values should be included in the model. It is recommended to set this to True when outliers are present in the data. The default value is ```False```.<br>
+ outliers are present in the data. The default value is ```False```.<br>
 The following options are for the [Prophet model for Cross-Validation](https://facebook.github.io/prophet/docs/diagnostics.html#cross-validation). These values have been determined based on experiments conducted on the available data.<br>
 ```initial```: 365 days<br>
 ```period```: 30 days<br>
