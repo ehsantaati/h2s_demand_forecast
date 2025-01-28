@@ -45,6 +45,7 @@ To perform forecasts with a trained model, you need the path to the trained mode
     python -m forecast
     ```
 <br>
+
 All trained models with the ```.joblib``` extension within the models folder will be automatically utilized to forecast future demands.
 The results will be saved in the ```output``` directory recognisable with ```model_id```.
 
