@@ -36,16 +36,13 @@ The forecasting model utilises [Prophet](https://facebook.github.io/prophet/), w
     ```
 The training process can be time-consuming, depending on the dataset size. Upon completion, the trained model will be saved in the designated ```model``` directory recognisable with the provided ```model_id```, and the corresponding evaluation results will be written to the ```output``` directory.
 ### Forecast with a trained model
-To perform forecasts with a trained model, the path to the trained model file (```model_path```) is required. Two optional parameters can be adjusted based on the training pipeline settings:
+To perform forecasts with a trained model, the path to the trained model file (```models_dir```) is required, which is by default is set to the ```models``` directory. You need to make sure that the trined forecater(s) be in this folder before executing the following command.
 
-```horizon```: This parameter specifies the number of future months to forecast. It defaults to 6 months.<br>
-
-
-To start forecasting pipeline execute the following command in the command line:<br>
+Navigate to the ```Python``` environment which already should be installed in your machine. To start forecasting pipeline execute the following command in the command line:<br>
     ```bash
     python -m forecast 
     ```
-All trained models with the ```.joblib``` extension will be automatically utilized to forecast future demands.
+All trained models with the ```.joblib``` extension within the models folder will be automatically utilized to forecast future demands.
 The results will be saved in the ```output``` directory recognisable with ```model_id```.
 
 ### Parameters
