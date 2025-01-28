@@ -39,9 +39,11 @@ The training process can be time-consuming, depending on the dataset size. Upon 
 To perform forecasts with a trained model, you need the path to the trained model file (models_dir). By default, this is set to the models directory. Ensure that the trained forecaster(s) are in this folder before executing the following command.<br>
 
 Navigate to the Python environment that should already be installed on your machine. To start the forecasting pipeline, execute the following command in the command line:<br>
+
     ```bash
     python -m forecast 
     ```
+<br>
 All trained models with the ```.joblib``` extension within the models folder will be automatically utilized to forecast future demands.
 The results will be saved in the ```output``` directory recognisable with ```model_id```.
 
