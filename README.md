@@ -20,7 +20,6 @@ This project aims to develop a robust and adaptable resourcing model for Home To
 ```bash
 git clone https://github.com/ehsantaati/h2s_demand_forecast.git
 ```
-2. Navigate to the ```Python``` environment which already should be installed in your machine.
 
 3. Install required packages:
 ```bash
