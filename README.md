@@ -20,14 +20,8 @@ This project aims to develop a robust and adaptable resourcing model for Home To
 ```bash
 git clone https://github.com/ehsantaati/h2s_demand_forecast.git
 ```
-2. Create the Python environment on Anaconda (optional):
-```bash
-conda create --name h2st python=3.12
+2. Navigate to the ```Python``` environment which already should be installed in your machine.
 
-conda activate h2st
-
-cd path/to/h2s_demand_forecat
-```
 3. Install required packages:
 ```bash
 pip install -r requirements.txt
