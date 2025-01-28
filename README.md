@@ -36,9 +36,9 @@ The forecasting model utilises [Prophet](https://facebook.github.io/prophet/), w
     ```
 The training process can be time-consuming, depending on the dataset size. Upon completion, the trained model will be saved in the designated ```model``` directory recognisable with the provided ```model_id```, and the corresponding evaluation results will be written to the ```output``` directory.
 ### Forecast with a trained model
-To perform forecasts with a trained model, the path to the trained model file (```models_dir```) is required, which is by default is set to the ```models``` directory. You need to make sure that the trined forecater(s) be in this folder before executing the following command.
+To perform forecasts with a trained model, you need the path to the trained model file (models_dir). By default, this is set to the models directory. Ensure that the trained forecaster(s) are in this folder before executing the following command.<br>
 
-Navigate to the ```Python``` environment which already should be installed in your machine. To start forecasting pipeline execute the following command in the command line:<br>
+Navigate to the Python environment that should already be installed on your machine. To start the forecasting pipeline, execute the following command in the command line:<br>
     ```bash
     python -m forecast 
     ```
