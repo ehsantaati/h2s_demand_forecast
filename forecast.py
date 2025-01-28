@@ -1,3 +1,4 @@
+"""To forecast automatically using the trained models"""
 import argparse
 from pathlib import Path
 
