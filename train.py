@@ -15,7 +15,7 @@ from sklearn.metrics import mean_absolute_percentage_error, mean_squared_error
 from joblib import dump, Parallel, delayed
 import logging
 from tqdm import tqdm
-from utils import *
+from util import *
 import os 
 
 # Set up logging
