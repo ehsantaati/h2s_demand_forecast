@@ -99,7 +99,7 @@ def load_config(config_path: str = "config/config.json") -> Dict[str, Any]:
             config = json.load(f)
         
         # Required configuration fields
-        required_fields = ['model_id', 'normalize', 'initial', 'period', 'horizon']
+        required_fields = ['model_id','date_column']
         missing_fields = [field for field in required_fields if field not in config]
         
         if missing_fields:
@@ -108,11 +108,7 @@ def load_config(config_path: str = "config/config.json") -> Dict[str, Any]:
         # Set default values
         defaults = {
             'test_size': 6,
-            'date_column': 'Created',
             'normalize': False,
-            'initial': '730 days',
-            'period': '180 days',
-            'horizon': '365 days'
         }
         
         for key, default_value in defaults.items():

@@ -126,7 +126,7 @@ def visualise(df: pd.DataFrame, title: str, path_to_save: str) -> None:
     except Exception as e:
         logger.error(f"Error creating visualization: {str(e)}")
         raise
-
+    
 def evaluate_prophet_params(params: Dict[str, Any], df: pd.DataFrame, config: Dict[str, Any]) -> float:
     """Evaluate one set of Prophet parameters using cross-validation.
     
@@ -138,6 +138,7 @@ def evaluate_prophet_params(params: Dict[str, Any], df: pd.DataFrame, config: Di
     Returns:
         MAPE score for the parameter set
     """
+    #ToDo: initial, period and horizon should be calcualted by the calculate_cv_parameters this code returns error.
     try:
         m = Prophet(**params).fit(df)
         df_cv = cross_validation(

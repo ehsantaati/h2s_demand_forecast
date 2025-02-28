@@ -1,9 +1,6 @@
 {
-    "model_id": "closed_enquiries",
+    "model_id": "appeals",
     "test_size": 6,
-    "date_column": "Started Date",
-    "initial": "450 days",
-    "period": "90 days",
-    "horizon": "180 days",
+    "date_column": "Created",
     "normalize": false
 }
