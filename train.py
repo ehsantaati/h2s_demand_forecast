@@ -139,13 +139,17 @@ def evaluate_prophet_params(params: Dict[str, Any], df: pd.DataFrame, config: Di
         MAPE score for the parameter set
     """
     #ToDo: initial, period and horizon should be calcualted by the calculate_cv_parameters this code returns error.
+
+    total_days = calculate_days(df) + config["test_size"] * 30
+    
+    cv_parameters = calculate_cv_parameters(total_days)
     try:
         m = Prophet(**params).fit(df)
         df_cv = cross_validation(
             m,
-            initial=config["initial"],
-            period=config["period"],
-            horizon=config["horizon"],
+            initial=cv_parameters["initial"],
+            period=cv_parameters["period"],
+            horizon=cv_parameters["horizon"],
             parallel="processes"
         )
         df_p = performance_metrics(df_cv, rolling_window=1)

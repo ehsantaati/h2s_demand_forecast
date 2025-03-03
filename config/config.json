@@ -1,5 +1,5 @@
 {
-    "model_id": "appeals",
+    "model_id": "post16",
     "test_size": 6,
     "date_column": "Created",
     "normalize": false
