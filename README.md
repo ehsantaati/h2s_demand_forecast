@@ -19,7 +19,7 @@ A robust and adaptable demand forecasting system for Home To School Transport Se
 
 ## 🎯 Overview
 
-This project implements a sophisticated demand forecasting system for Home To School Transport services. By analyzing historical service data, critical path points, and seasonal patterns, the system predicts future resource requirements (permanent, fixed-term, and bank staff) across various service activities.
+This project implements a sophisticated demand forecasting system for Home To School Transport services. By analysing historical service data, critical path points, and seasonal patterns, the system predicts future resource requirements (permanent, fixed-term, and bank staff) across various service activities.
 
 ![Model Overview](assets/Model_Overview.jpg)
 
@@ -32,6 +32,7 @@ This project implements a sophisticated demand forecasting system for Home To Sc
 - **Flexible Configuration**: Easy-to-modify JSON configuration system
 - **Performance Metrics**: Comprehensive model evaluation with MAPE and RMSE
 - **Visualization**: Interactive plots for time series and forecasts
+- **Resource Allocation**: Under development.
 
 ## 📁 Project Structure
 
@@ -46,7 +47,7 @@ h2s_demand_forecast/
 ├── forecast.py        # Forecasting script
 ├── train.py          # Model training script
 ├── utils.py          # Utility functions
-├── model_training.ipynb  # Interactive analysis notebook
+├── modelling.ipynb  # Interactive analysis notebook
 └── requirements.txt   # Python dependencies
 ```
 
@@ -61,7 +62,7 @@ h2s_demand_forecast/
 2. **Create a Virtual Environment (Optional but Recommended)**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   On Windows: venv\Scripts\activate
    ```
 
 3. **Install Dependencies**
@@ -78,10 +79,7 @@ Create or modify `config/config.json` with your settings:
 ```json
 {
     "model_id": "h2s_forecast",
-    "normalize": true,
-    "initial": "730 days",
-    "period": "180 days",
-    "horizon": "365 days",
+    "normalize": false,
     "test_size": 6,
     "date_column": "Created"
 }
@@ -92,10 +90,6 @@ Key parameters:
 - `normalize`: Whether to apply log transformation to the data
 - `test_size`: Number of months for testing (default: 6)
 - `date_column`: Name of the date column in your data
-- Cross-validation parameters:
-  - `initial`: Training period (default: 730 days)
-  - `period`: Spacing between cutoff dates (default: 180 days)
-  - `horizon`: Forecast horizon (default: 365 days)
 
 ### Training
 
@@ -110,6 +104,7 @@ Key parameters:
    ```
    The training process includes:
    - Data preprocessing and validation
+   - Automatic calculation of initial, horizon and period for Prophet based on teh input data
    - Hyperparameter tuning via cross-validation
    - Model training and evaluation
    - Saving model and metrics
@@ -129,18 +124,6 @@ Key parameters:
    - Generate forecasts for future periods
    - Save results in the `output` directory
 
-### Interactive Analysis
-
-Use the Jupyter notebook for detailed analysis:
-```bash
-jupyter notebook model_training.ipynb
-```
-
-The notebook provides:
-- Interactive data exploration
-- Detailed model training process
-- Visual performance analysis
-- Forecast visualization
 
 ## 🔍 Model Details
 
@@ -168,14 +151,3 @@ Results are saved in JSON format with:
 - Cross-validation results
 - Forecast confidence intervals
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 📧 Contact
-
-For questions or feedback, please contact [your-email@example.com].
