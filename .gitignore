@@ -6,4 +6,6 @@ __pycache__/
 tocheckgitignore/
 archive/
 .venv/
-test/*
+test1/*
+!.gitignore
+!.gitkeep
