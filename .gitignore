@@ -7,4 +7,3 @@ tocheckgitignore/
 archive/
 .venv/
 test/*
-!test/.gitignore
