@@ -2,7 +2,9 @@ data/*
 models/*
 output/*
 __pycache__/
-data_arch/
-h2st/
-./vscode/*
+.vscode/
 tocheckgitignore/
+archive/
+.venv/
+!.gitignore
+!.gitkeep

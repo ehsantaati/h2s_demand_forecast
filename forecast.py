@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from joblib import load
 
-from utils import *
+from util import *
 
 
 def main():

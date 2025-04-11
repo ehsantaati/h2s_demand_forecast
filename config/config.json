@@ -1,8 +1,6 @@
-{   "model_id":"closed_enquiries",
+{
+    "model_id": "post16",
     "test_size": 6,
-    "date_column": "Started Date",
-    "initial": "365 days", 
-    "period" : "30 days", 
-    "horizon":"90 days",
-    "normalize":"False"
+    "date_column": "Created",
+    "normalize": false
 }

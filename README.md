@@ -1,59 +1,151 @@
-<h1 style="text-align: center;">Demand forecasing and Resource Allocation: Home to School Transport Service</h1>
+# H2S Demand Forecasting System
 
+A robust and adaptable demand forecasting system for Home To School Transport Service, leveraging machine learning to predict resource needs across eligibility, delivery, complaints, and appeals activities.
 
-This project aims to develop a robust and adaptable resourcing model for Home To School Transport, focusing on the core activities of eligibility, delivery, complaints, and appeals. By analyzing historical service data, critical path points, and known seasonal fluctuations, the model will predict future resource needs (permanent, fixed-term, and bank staff) across these activities.
+## 📋 Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Configuration](#configuration)
+  - [Training](#training)
+  - [Forecasting](#forecasting)
+  - [Interactive Analysis](#interactive-analysis)
+- [Model Details](#model-details)
+- [Performance Metrics](#performance-metrics)
 
+## 🎯 Overview
 
-## Model Overview
+This project implements a demand forecasting system for Home To School Transport services. By analysing historical service data, critical path points, and seasonal patterns, the system predicts future resource requirements (permanent, fixed-term, and bank staff) across various service activities.
+
 ![Model Overview](assets/Model_Overview.jpg)
-## Getting Started
 
-### Prerequisites
+## ✨ Features
 
-* Python 3.12
-* pip (package installer for Python)
+- **Automated Data Processing**: Converts daily records to monthly time series automatically
+- **Advanced Forecasting**: Uses Facebook's Prophet model with automatic hyperparameter tuning
+- **Cross-Validation**: Implements robust model validation techniques
+- **Interactive Analysis**: Jupyter notebook for detailed analysis and visualization
+- **Flexible Configuration**: Easy-to-modify JSON configuration system
+- **Performance Metrics**: Comprehensive model evaluation with MAPE and RMSE
+- **Visualization**: Interactive plots for time series and forecasts
+- **Resource Allocation**: Under development.
 
-### Installation
+## 📁 Project Structure
 
-1. Clone the repository:
-
-```bash
-git clone https://github.com/ehsantaati/h2s_demand_forecast.git
+```
+h2s_demand_forecast/
+├── assets/              # Project assets and images
+├── config/             # Configuration files
+│   └── config.json    # Main configuration file
+├── data/              # Data directory for input files
+├── models/            # Saved trained models
+├── output/            # Model outputs and metrics
+├── forecast.py        # Forecasting script
+├── train.py          # Model training script
+├── utils.py          # Utility functions
+├── modelling.ipynb  # Interactive analysis notebook
+└── requirements.txt   # Python dependencies
 ```
 
-3. Install required packages:
-```bash
-pip install -r requirements.txt
+## 🚀 Installation
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/ehsantaati/h2s_demand_forecast.git
+   cd h2s_demand_forecast
+   ```
+
+2. **Create a Virtual Environment (Optional but Recommended)**
+   ```bash
+   python -m venv venv
+   On Windows: venv\Scripts\activate
+   ```
+
+3. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## 💻 Usage
+
+### Configuration
+
+Create or modify `config/config.json` with your settings:
+
+```json
+{
+    "model_id": "h2s_forecast",
+    "normalize": false,
+    "test_size": 6,
+    "date_column": "Created"
+}
 ```
-### Train a forecatser
-The forecasting model utilises [Prophet](https://facebook.github.io/prophet/), which undergoes automatic training via cross-validation to tune its hyperparameters. The entire pipeline is designed to be automated, encompassing data preparation, splitting, model training, and performance evaluation. To train the model, the following steps should be adhered to:
-1. The pipeline consumes daily recorded data and transforms it into a monthly time series. To achieve this, configure the ```model_id``` and ```date_column``` parameters in ```config/config.json``` according to the data. The data should be provided in an Excel format and placed within the ```data```directory.
-2. To start training process execute the following command in the command line:
 
-    ```bash
-    python -m train
-    ```
-The training process can be time-consuming, depending on the dataset size. Upon completion, the trained model will be saved in the designated ```model``` directory recognisable with the provided ```model_id```, and the corresponding evaluation results will be written to the ```output``` directory.
-### Forecast with a trained model
-To perform forecasts with a trained model, you need the path to the trained model file (models_dir). By default, this is set to the models directory. Ensure that the trained forecaster(s) are in this folder before executing the following command.<br>
+Key parameters:
+- `model_id`: Unique identifier for the model and its outputs
+- `normalize`: Whether to apply log transformation to the data
+- `test_size`: Number of months for testing (default: 6)
+- `date_column`: Name of the date column in your data
 
-1. Navigate to the Python environment that should already be installed on your machine.
-2. To start the forecasting pipeline, execute the following command:<br>
+### Training
 
-    ```bash
-    python -m forecast
-    ```
-<br>
+1. **Prepare Your Data**
+   - Place your Excel files in the `data` directory
+   - Ensure files contain the specified date column
+   - Data should be in daily format (will be aggregated to monthly)
 
-All trained models with the ```.joblib``` extension within the models folder will be automatically utilized to forecast future demands.
-The results will be saved in the ```output``` directory recognisable with ```model_id```.
+2. **Train the Model**
+   ```bash
+   python -m train
+   ```
+   The training process includes:
+   - Data preprocessing and validation
+   - Automatic calculation of initial, horizon and period for Prophet based on teh input data
+   - Hyperparameter tuning via cross-validation
+   - Model training and evaluation
+   - Saving model and metrics
 
-### Parameters
-```model_id```: Model name which all the model's output will be identified with.<br>
-```test_size```: The number of months used to create the test set and evaluate model performance defaults to 6.<br>
-```date_column```: Name of the column containing dates in the data.<br>
- outliers are present in the data. The default value is ```False```.<br>
-The following options are for the [Prophet model for Cross-Validation](https://facebook.github.io/prophet/docs/diagnostics.html#cross-validation). These values have been determined based on experiments conducted on the available data.<br>
-```initial```: 365 days<br>
-```period```: 30 days<br>
-```horizon```: 90 days<br>
+3. **Check Results**
+   - Trained model saved in `models/{model_id}/`
+   - Performance metrics saved in `output/{model_id}/`
+
+### Forecasting
+
+1. **Generate Forecasts**
+   ```bash
+   python -m forecast
+   ```
+   This will:
+   - Load trained models from the `models` directory
+   - Generate forecasts for future periods
+   - Save results in the `output` directory
+
+
+## 🔍 Model Details
+
+The system uses Facebook's Prophet model, which is particularly effective for time series with:
+- Strong seasonal patterns
+- Missing data
+- Outliers
+- Trend changes
+
+Key features of the modeling approach:
+- Automatic seasonality detection
+- Robust to missing data
+- Handles outliers effectively
+- Configurable changepoint detection
+- Uncertainty estimation
+
+## 📊 Performance Metrics
+
+The model's performance is evaluated using:
+- **MAPE** (Mean Absolute Percentage Error)
+- **RMSE** (Root Mean Square Error)
+
+Results are saved in JSON format with:
+- Overall metrics
+- Cross-validation results
+- Forecast confidence intervals
+
