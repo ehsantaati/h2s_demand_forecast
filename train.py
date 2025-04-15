@@ -240,10 +240,8 @@ def cv_train(df: pd.DataFrame, config: Dict[str, Any]) -> None:
         model_dir.mkdir(parents=True, exist_ok=True)
         dump(auto_model, model_dir / f"{model_name}.joblib")
         
-        output_dir = Path(f"output/{model_id}")
-        output_dir.mkdir(parents=True, exist_ok=True)
         
-        with open(output_dir / f"{model_name}.json", "w") as f:
+        with open(model_dir / f"{model_name}.json", "w") as f:
             json.dump(metrics, f)
 
         # Create visualization
