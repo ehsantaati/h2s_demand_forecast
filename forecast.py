@@ -39,7 +39,7 @@ def main():
       periods=12, freq='M', include_history=False)
     forecast = model.predict(future)
 
-    if "norm" in str(p):
+    if not "notnorm" in str(p):
       forecast['yhat'] = inverse_log_transform(forecast['yhat'])
       forecast['yhat_lower'] = inverse_log_transform(forecast['yhat_lower'])
       forecast['yhat_upper'] = inverse_log_transform(forecast['yhat_upper'])
