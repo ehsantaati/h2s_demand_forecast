@@ -109,7 +109,7 @@ Key parameters:
 
 3. **Check Results**
    - Trained model saved in `models/{model_id}/`
-   - Performance metrics saved in `output/{model_id}/`
+   - Performance metrics saved in `models/{model_id}/`
 
 ### Forecasting
 
