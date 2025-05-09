@@ -150,6 +150,6 @@ Results are saved in JSON format with:
 - Cross-validation results
 - Forecast confidence intervals
 
-### Model Architecture
-![Model Architecture](assets/flowchart.md)
+## 🏗️ Model Architecture
+[Model Architecture](assets/flowchart.md)
 
