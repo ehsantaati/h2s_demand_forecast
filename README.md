@@ -14,7 +14,7 @@ A robust and adaptable demand forecasting system for Home To School Transport Se
   - [Interactive Analysis](#interactive-analysis)
 - [Model Details](#model-details)
 - [Performance Metrics](#performance-metrics)
-- [Model Architecture](#model-architecture)
+- [Model Architecture](#️-model-architecture)
 
 ## 🎯 Overview
 
