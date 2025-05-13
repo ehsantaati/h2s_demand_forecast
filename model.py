@@ -281,7 +281,7 @@ def forecast(model_path: Path = None, model: Prophet = None, data_type: str = No
         out = out[out["ds"] >= cut_off_date]
         
         # Create output directory and save results
-        results_dir = Path(f"results/{model_id}")
+        results_dir = Path(f"results/forecast_{model_id}")
         results_dir.mkdir(parents=True, exist_ok=True)
         
         out.columns = ["Date", "Worst Case Scenario", "Central Case", "Best Case Scenario"]
