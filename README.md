@@ -163,3 +163,5 @@ Results are saved in JSON format with:
 - Cross-validation results
 - Forecast confidence intervals
 
+2025-05-13 11:21:03,541 - util - ERROR - Error loading config: Missing required fields in config: initial, period, horizon
+2025-05-13 11:21:03,542 - __main__ - ERROR - Error: Missing required fields in config: initial, period, horizon
