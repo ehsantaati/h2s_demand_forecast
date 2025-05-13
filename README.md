@@ -93,7 +93,7 @@ Key parameters:
 
 2. **Run the Model**
    ```bash
-   python model.py --config config/config.json
+   python model.py
    ```
    
    The unified process includes:
