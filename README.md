@@ -128,18 +128,6 @@ Key parameters:
      - Forecast outputs: `results/forecast_{model_id}/`
        - Forecast results (`.xlsx` file)
 
-### Interactive Analysis
-
-Use the Jupyter notebook for detailed analysis:
-```bash
-jupyter notebook modeling.ipynb
-```
-
-The notebook provides:
-- Interactive data exploration
-- Detailed model training process
-- Visual performance analysis
-- Forecast visualization
 
 ## 🔍 Model Details
 
