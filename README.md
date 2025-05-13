@@ -120,12 +120,13 @@ Key parameters:
    - `--horizon`: Forecasting horizon in months (default: 6) - can be increased for longer-term forecasts
 
 4. **Check Results**
-   - All outputs are saved in a single location: `results/{model_id}/`
-   - Files in the results directory include:
-     - Trained model (`.joblib` file)
-     - Performance metrics (`.json` file)
-     - Forecast results (`.xlsx` file)
-     - Evaluation visualization (`.html` file)
+   - All outputs are saved in the `results` directory:
+     - Training and evaluation outputs: `results/{model_id}/`
+       - Trained model (`.joblib` file)
+       - Performance metrics (`.json` file)
+       - Evaluation visualization (`.html` file)
+     - Forecast outputs: `results/forecast_{model_id}/`
+       - Forecast results (`.xlsx` file)
 
 ### Interactive Analysis
 
