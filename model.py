@@ -258,8 +258,8 @@ def forecast(model_path: Path = None, model: Prophet = None, data_type: str = No
         
         logger.info(f"Generating forecast with horizon {horizon} months...")
         
-        # Generate future dataframe for prediction
-        future = model.make_future_dataframe(periods=12, freq='ME', include_history=False)
+        # Generate future dataframe for prediction with extra buffer
+        future = model.make_future_dataframe(periods=horizon + 1, freq='ME', include_history=False)
         forecast_df = model.predict(future)
 
         # Apply inverse transformation if needed
@@ -274,7 +274,7 @@ def forecast(model_path: Path = None, model: Prophet = None, data_type: str = No
         forecast_df[forecast_cols] = np.ceil(forecast_df[forecast_cols])
         
         # Calculate cutoff date based on horizon
-        cut_off_date = pd.Timestamp(future.loc[0].values[0]) + pd.DateOffset(months=horizon)
+        cut_off_date = pd.Timestamp(future.loc[0].values[0])
         
         # Prepare output
         out = forecast_df[["ds", "yhat_lower", "yhat", "yhat_upper"]]
