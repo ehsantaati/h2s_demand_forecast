@@ -9,8 +9,7 @@ A robust and adaptable demand forecasting system for Home To School Transport Se
 - [Installation](#installation)
 - [Usage](#usage)
   - [Configuration](#configuration)
-  - [Training](#training)
-  - [Forecasting](#forecasting)
+  - [Training and Forecasting](#training-and-forecasting)
   - [Interactive Analysis](#interactive-analysis)
 - [Model Details](#model-details)
 - [Performance Metrics](#performance-metrics)
@@ -43,10 +42,9 @@ h2s_demand_forecast/
 ├── data/              # Data directory for input files
 ├── models/            # Saved trained models
 ├── output/            # Model outputs and metrics
-├── forecast.py        # Forecasting script
-├── train.py          # Model training script
-├── utils.py          # Utility functions
-├── model_training.ipynb  # Interactive analysis notebook
+├── model.py           # Combined training and forecasting script
+├── util.py            # Utility functions
+├── modeling.ipynb     # Interactive analysis notebook
 └── requirements.txt   # Python dependencies
 ```
 
@@ -78,10 +76,7 @@ Create or modify `config/config.json` with your settings:
 ```json
 {
     "model_id": "h2s_forecast",
-    "normalize": true,
-    "initial": "730 days",
-    "period": "180 days",
-    "horizon": "365 days",
+    "normalize": false,
     "test_size": 6,
     "date_column": "Created"
 }
@@ -92,48 +87,48 @@ Key parameters:
 - `normalize`: Whether to apply log transformation to the data
 - `test_size`: Number of months for testing (default: 6)
 - `date_column`: Name of the date column in your data
-- Cross-validation parameters:
-  - `initial`: Training period (default: 730 days)
-  - `period`: Spacing between cutoff dates (default: 180 days)
-  - `horizon`: Forecast horizon (default: 365 days)
 
-### Training
+### Training and Forecasting
 
 1. **Prepare Your Data**
    - Place your Excel files in the `data` directory
    - Ensure files contain the specified date column
    - Data should be in daily format (will be aggregated to monthly)
 
-2. **Train the Model**
+2. **Run the Model**
    ```bash
-   python -m train
+   python model.py --config config/config.json
    ```
-   The training process includes:
+   
+   The unified process includes:
    - Data preprocessing and validation
    - Hyperparameter tuning via cross-validation
    - Model training and evaluation
-   - Saving model and metrics
+   - Immediate forecasting using the trained model
+   - Saving model, metrics, and forecasts
 
-3. **Check Results**
-   - Trained model saved in `models/{model_id}/`
-   - Performance metrics saved in `output/{model_id}/`
-
-### Forecasting
-
-1. **Generate Forecasts**
+3. **Additional Options**
    ```bash
-   python -m forecast
+   # For a 12-month forecast horizon
+   python model.py --config config/config.json --horizon 12
+   
+   # For a 24-month forecast horizon
+   python model.py --config config/config.json --horizon 24
    ```
-   This will:
-   - Load trained models from the `models` directory
-   - Generate forecasts for future periods
-   - Save results in the `output` directory
+   
+   Key parameters:
+   - `--config`: Path to configuration file (default: config/config.json)
+   - `--horizon`: Forecasting horizon in months (default: 6) - can be increased for longer-term forecasts
+
+4. **Check Results**
+   - Trained model saved in `models/{model_id}/`
+   - Performance metrics and forecasts saved in `output/{model_id}/`
 
 ### Interactive Analysis
 
 Use the Jupyter notebook for detailed analysis:
 ```bash
-jupyter notebook model_training.ipynb
+jupyter notebook modeling.ipynb
 ```
 
 The notebook provides:
@@ -168,14 +163,3 @@ Results are saved in JSON format with:
 - Cross-validation results
 - Forecast confidence intervals
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 📧 Contact
-
-For questions or feedback, please contact [your-email@example.com].

@@ -2,8 +2,5 @@
     "model_id": "closed_enquiries",
     "test_size": 6,
     "date_column": "Started Date",
-    "initial": "450 days",
-    "period": "90 days",
-    "horizon": "180 days",
     "normalize": false
 }
