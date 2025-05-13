@@ -1,6 +1,6 @@
 {
-    "model_id": "closed_enquiries",
+    "model_id": "post_16",
     "test_size": 6,
-    "date_column": "Started Date",
+    "date_column": "Created",
     "normalize": false
 }
