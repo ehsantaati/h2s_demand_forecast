@@ -13,9 +13,6 @@ A robust and adaptable demand forecasting system for Home To School Transport Se
   - [Interactive Analysis](#interactive-analysis)
 - [Model Details](#model-details)
 - [Performance Metrics](#performance-metrics)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## 🎯 Overview
 
 This project implements a sophisticated demand forecasting system for Home To School Transport services. By analyzing historical service data, critical path points, and seasonal patterns, the system predicts future resource requirements (permanent, fixed-term, and bank staff) across various service activities.
@@ -117,25 +114,14 @@ Key parameters:
    - `--horizon`: Forecasting horizon in months (default: 6) - can be increased for longer-term forecasts
 
 4. **Check Results**
-   - All outputs are saved in a single location: `results/{model_id}/`
-   - Files in the results directory include:
-     - Trained model (`.joblib` file)
-     - Performance metrics (`.json` file)
-     - Forecast results (`.xlsx` file)
-     - Evaluation visualization (`.html` file)
+   - All outputs are saved in the `results` directory:
+     - Training and evaluation outputs: `results/{model_id}/`
+       - Trained model (`.joblib` file)
+       - Performance metrics (`.json` file)
+       - Evaluation visualization (`.html` file)
+     - Forecast outputs: `results/forecast_{model_id}/`
+       - Forecast results (`.xlsx` file)
 
-### Interactive Analysis
-
-Use the Jupyter notebook for detailed analysis:
-```bash
-jupyter notebook modeling.ipynb
-```
-
-The notebook provides:
-- Interactive data exploration
-- Detailed model training process
-- Visual performance analysis
-- Forecast visualization
 
 ## 🔍 Model Details
 
