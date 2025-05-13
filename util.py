@@ -325,19 +325,17 @@ def save_model_and_metrics(
     if model_name is None:
       model_name = f"{model_id}_{now}_{data_type}"
 
-    # Create directories
-    model_dir = Path(f"models/{model_id}")
-    output_dir = Path(f"output/{model_id}")
-    model_dir.mkdir(parents=True, exist_ok=True)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # Create results directory
+    results_dir = Path(f"results/{model_id}")
+    results_dir.mkdir(parents=True, exist_ok=True)
 
     # Save model
-    model_path = model_dir / f"{model_name}.joblib"
+    model_path = results_dir / f"{model_name}.joblib"
     dump(model, model_path)
     logger.info(f"Model saved to {model_path}")
 
     # Save metrics
-    metrics_path = output_dir / f"{model_name}.json"
+    metrics_path = results_dir / f"{model_name}_metrics.json"
     with open(metrics_path, 'w') as f:
       json.dump(metrics, f)
     logger.info(f"Metrics saved to {metrics_path}")

@@ -40,8 +40,7 @@ h2s_demand_forecast/
 ├── config/             # Configuration files
 │   └── config.json    # Main configuration file
 ├── data/              # Data directory for input files
-├── models/            # Saved trained models
-├── output/            # Model outputs and metrics
+├── results/           # All model outputs (models, metrics, forecasts)
 ├── model.py           # Combined training and forecasting script
 ├── util.py            # Utility functions
 ├── modeling.ipynb     # Interactive analysis notebook
@@ -121,8 +120,12 @@ Key parameters:
    - `--horizon`: Forecasting horizon in months (default: 6) - can be increased for longer-term forecasts
 
 4. **Check Results**
-   - Trained model saved in `models/{model_id}/`
-   - Performance metrics and forecasts saved in `output/{model_id}/`
+   - All outputs are saved in a single location: `results/{model_id}/`
+   - Files in the results directory include:
+     - Trained model (`.joblib` file)
+     - Performance metrics (`.json` file)
+     - Forecast results (`.xlsx` file)
+     - Evaluation visualization (`.html` file)
 
 ### Interactive Analysis
 

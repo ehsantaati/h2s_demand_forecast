@@ -199,14 +199,14 @@ def train_model(config: Dict[str, Any]) -> Tuple[Prophet, Path, str]:
 
         # Save model and results
         now = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-        model_dir = Path(f"models/{model_id}")
+        results_dir = Path(f"results/{model_id}")
+        results_dir.mkdir(parents=True, exist_ok=True)
         model_name = f"{model_id}_{now}_{data_type}"
         
-        model_dir.mkdir(parents=True, exist_ok=True)
-        model_path = model_dir / f"{model_name}.joblib"
+        model_path = results_dir / f"{model_name}.joblib"
         dump(auto_model, model_path)
         
-        with open(model_dir / f"{model_name}.json", "w") as f:
+        with open(results_dir / f"{model_name}_metrics.json", "w") as f:
             json.dump(metrics, f)
 
         # Create visualization
@@ -223,7 +223,7 @@ def train_model(config: Dict[str, Any]) -> Tuple[Prophet, Path, str]:
         visualise(
             visualization_df,
             f"{model_id} Forecast",
-            f"output/{model_id}/{model_name}"
+            f"results/{model_id}/{model_name}_evaluation"
         )
         
         logger.info(f"Model trained and saved successfully at: {model_path}")
@@ -281,13 +281,13 @@ def forecast(model_path: Path = None, model: Prophet = None, data_type: str = No
         out = out[out["ds"] >= cut_off_date]
         
         # Create output directory and save results
-        output_dir = f"output/{model_id}"
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        results_dir = Path(f"results/{model_id}")
+        results_dir.mkdir(parents=True, exist_ok=True)
         
         out.columns = ["Date", "Worst Case Scenario", "Central Case", "Best Case Scenario"]
-        out.to_excel(f"{output_dir}/forecast_{model_id}.xlsx", index=False)
+        out.to_excel(f"{results_dir}/forecast_{model_id}.xlsx", index=False)
         
-        logger.info(f"Forecast generated and saved at: {output_dir}/forecast_{model_id}.xlsx")
+        logger.info(f"Forecast generated and saved at: {results_dir}/forecast_{model_id}.xlsx")
         return out
         
     except Exception as e:
