@@ -259,7 +259,7 @@ def forecast(model_path: Path = None, model: Prophet = None, data_type: str = No
         logger.info(f"Generating forecast with horizon {horizon} months...")
         
         # Generate future dataframe for prediction
-        future = model.make_future_dataframe(periods=12, freq='M', include_history=False)
+        future = model.make_future_dataframe(periods=12, freq='ME', include_history=False)
         forecast_df = model.predict(future)
 
         # Apply inverse transformation if needed
@@ -308,10 +308,10 @@ def main():
         
         # Train model
         logger.info("Starting model training followed by forecasting...")
-        model, model_path, data_type = train_model(config)
+        _, model_path, data_type = train_model(config)
         
         # Run forecasting
-        forecast(model=model, model_path=model_path, data_type=data_type, horizon=args.horizon)
+        forecast(model_path=model_path, data_type=data_type, horizon=args.horizon)
     
     except Exception as e:
         logger.error(f"Error: {str(e)}")

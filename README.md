@@ -109,10 +109,7 @@ Key parameters:
 3. **Additional Options**
    ```bash
    # For a 12-month forecast horizon
-   python model.py --config config/config.json --horizon 12
-   
-   # For a 24-month forecast horizon
-   python model.py --config config/config.json --horizon 24
+   python model.py --horizon 12
    ```
    
    Key parameters:
