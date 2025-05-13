@@ -13,9 +13,6 @@ A robust and adaptable demand forecasting system for Home To School Transport Se
   - [Interactive Analysis](#interactive-analysis)
 - [Model Details](#model-details)
 - [Performance Metrics](#performance-metrics)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## 🎯 Overview
 
 This project implements a sophisticated demand forecasting system for Home To School Transport services. By analyzing historical service data, critical path points, and seasonal patterns, the system predicts future resource requirements (permanent, fixed-term, and bank staff) across various service activities.
