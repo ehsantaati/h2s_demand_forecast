@@ -110,7 +110,6 @@ Key parameters:
    ```
    
    Key parameters:
-   - `--config`: Path to configuration file (default: config/config.json)
    - `--horizon`: Forecasting horizon in months (default: 6) - can be increased for longer-term forecasts
 
 4. **Check Results**
