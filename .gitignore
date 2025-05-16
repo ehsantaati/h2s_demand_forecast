@@ -4,7 +4,5 @@ output/*
 __pycache__/
 .vscode/
 tocheckgitignore/
-archive/
-.venv/
-!.gitignore
-!.gitkeep
+archive
+results

@@ -1,6 +1,7 @@
 {
-    "model_id": "post16",
+    "model_id": "post_16",
     "test_size": 6,
+    "date_column": "Created",
     "date_column": "Created",
     "normalize": false
 }

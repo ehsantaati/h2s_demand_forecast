@@ -9,13 +9,10 @@ A robust and adaptable demand forecasting system for Home To School Transport Se
 - [Installation](#installation)
 - [Usage](#usage)
   - [Configuration](#configuration)
-  - [Training](#training)
-  - [Forecasting](#forecasting)
+  - [Training and Forecasting](#training-and-forecasting)
   - [Interactive Analysis](#interactive-analysis)
 - [Model Details](#model-details)
 - [Performance Metrics](#performance-metrics)
-- [Model Architecture](#️-model-architecture)
-
 ## 🎯 Overview
 
 This project implements a demand forecasting system for Home To School Transport services. By analysing historical service data, critical path points, and seasonal patterns, the system predicts future resource requirements (permanent, fixed-term, and bank staff) across various service activities.
@@ -41,12 +38,10 @@ h2s_demand_forecast/
 ├── config/             # Configuration files
 │   └── config.json    # Main configuration file
 ├── data/              # Data directory for input files
-├── models/            # Saved trained models
-├── output/            # Model outputs and metrics
-├── forecast.py        # Forecasting script
-├── train.py          # Model training script
-├── utils.py          # Utility functions
-├── modelling.ipynb  # Interactive analysis notebook
+├── results/           # All model outputs (models, metrics, forecasts)
+├── model.py           # Combined training and forecasting script
+├── util.py            # Utility functions
+├── modeling.ipynb     # Interactive analysis notebook
 └── requirements.txt   # Python dependencies
 ```
 
@@ -79,6 +74,7 @@ Create or modify `config/config.json` with your settings:
 {
     "model_id": "h2s_forecast",
     "normalize": false,
+    "normalize": false,
     "test_size": 6,
     "date_column": "Created"
 }
@@ -90,38 +86,43 @@ Key parameters:
 - `test_size`: Number of months for testing (default: 6)
 - `date_column`: Name of the date column in your data
 
-### Training
+### Training and Forecasting
 
 1. **Prepare Your Data**
    - Place your Excel files in the `data` directory
    - Ensure files contain the specified date column
    - Data should be in daily format (will be aggregated to monthly)
 
-2. **Train the Model**
+2. **Run the Model**
    ```bash
-   python -m train
+   python model.py
    ```
-   The training process includes:
+   
+   The unified process includes:
    - Data preprocessing and validation
    - Automatic calculation of initial, horizon and period for Prophet based on teh input data
    - Hyperparameter tuning via cross-validation
    - Model training and evaluation
-   - Saving model and metrics
+   - Immediate forecasting using the trained model
+   - Saving model, metrics, and forecasts
 
-3. **Check Results**
-   - Trained model saved in `models/{model_id}/`
-   - Performance metrics saved in `models/{model_id}/`
-
-### Forecasting
-
-1. **Generate Forecasts**
+3. **Additional Options**
    ```bash
-   python -m forecast
+   # For a 12-month forecast horizon
+   python model.py --horizon 12
    ```
-   This will:
-   - Load trained models from the `models` directory
-   - Generate forecasts for future periods
-   - Save results in the `output` directory
+   
+   Key parameters:
+   - `--horizon`: Forecasting horizon in months (default: 6) - can be increased for longer-term forecasts
+
+4. **Check Results**
+   - All outputs are saved in the `results` directory:
+     - Training and evaluation outputs: `results/{model_id}/`
+       - Trained model (`.joblib` file)
+       - Performance metrics (`.json` file)
+       - Evaluation visualization (`.html` file)
+     - Forecast outputs: `results/forecast_{model_id}/`
+       - Forecast results (`.xlsx` file)
 
 
 ## 🔍 Model Details
@@ -149,7 +150,3 @@ Results are saved in JSON format with:
 - Overall metrics
 - Cross-validation results
 - Forecast confidence intervals
-
-## 🏗️ Model Architecture
-[Model Architecture](assets/flowchart.md)
-

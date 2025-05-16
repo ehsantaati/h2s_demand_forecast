@@ -1,3 +1,8 @@
+"""
+Combined training and forecasting model for H2S demand forecasting.
+This script handles both training and forecasting in a single workflow.
+"""
+import argparse
 import datetime
 import itertools
 import json
@@ -12,11 +17,10 @@ from prophet.diagnostics import cross_validation, performance_metrics
 from sktime.split import temporal_train_test_split
 import plotly.express as px
 from sklearn.metrics import mean_absolute_percentage_error, mean_squared_error
-from joblib import dump, Parallel, delayed
+from joblib import dump, load, Parallel, delayed
 import logging
 from tqdm import tqdm
 from util import *
-import os 
 
 # Set up logging
 logging.basicConfig(
@@ -25,49 +29,34 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def load_and_prep_data(config: Dict[str, Any]) -> pd.DataFrame:
-    """Load data from data directory folder and prepare it for Prophet.
+def evaluate_prophet_params(params: Dict[str, Any], df: pd.DataFrame, config: Dict[str, Any]) -> float:
+    """Evaluate one set of Prophet parameters using cross-validation.
     
     Args:
+        params: Dictionary of Prophet parameters
+        df: Input DataFrame
         config: Configuration dictionary
         
     Returns:
-        Prepared DataFrame for Prophet
-        
-    Raises:
-        Exception: If data processing fails
+        MAPE score for the parameter set
     """
+    total_days = calculate_days(df) + config["test_size"] * 30
+    
+    cv_parameters = calculate_cv_parameters(total_days)
     try:
-        data_path = Path("data")
-        paths = list(data_path.glob("*.xlsx"))
-        
-        if not paths:
-            raise FileNotFoundError("No Excel files found in data directory")
-            
-        # Use list comprehension for better performance
-        dfs = [pd.read_excel(p) for p in tqdm(paths, desc="Loading data files")]
-        df = pd.concat(dfs, ignore_index=True)
-        
-        # Validate input data
-        validate_data(df, config)
-        
-        # Prepare data for Prophet
-        df["ds"] = pd.to_datetime(df[config["date_column"]], format='%Y-%m-%d')
-        df.drop(config["date_column"], axis=1, inplace=True)
-        
-        # Group by month more efficiently
-        df_g = (df.groupby(df["ds"].dt.to_period('M'))
-                .size()
-                .reset_index())
-        df_g.columns = ["ds", "y"]
-        df_g["ds"] = df_g["ds"].dt.to_timestamp(how='end').dt.normalize()
-        
-        logger.info(f"Data loaded and prepared successfully: {len(df_g)} rows")
-        return df_g
-        
+        m = Prophet(**params).fit(df)
+        df_cv = cross_validation(
+            m,
+            initial=cv_parameters["initial"],
+            period=cv_parameters["period"],
+            horizon=cv_parameters["horizon"],
+            parallel="processes"
+        )
+        df_p = performance_metrics(df_cv, rolling_window=1)
+        return df_p['mape'].values[0]
     except Exception as e:
-        logger.error(f"Error processing data: {str(e)}")
-        raise
+        logger.error(f"Error in parameter evaluation: {str(e)}")
+        return float('inf')
 
 def visualise(df: pd.DataFrame, title: str, path_to_save: str) -> None:
     """Create and save visualization of forecasts.
@@ -126,46 +115,22 @@ def visualise(df: pd.DataFrame, title: str, path_to_save: str) -> None:
     except Exception as e:
         logger.error(f"Error creating visualization: {str(e)}")
         raise
-    
-def evaluate_prophet_params(params: Dict[str, Any], df: pd.DataFrame, config: Dict[str, Any]) -> float:
-    """Evaluate one set of Prophet parameters using cross-validation.
-    
-    Args:
-        params: Dictionary of Prophet parameters
-        df: Input DataFrame
-        config: Configuration dictionary
-        
-    Returns:
-        MAPE score for the parameter set
-    """
-    #ToDo: initial, period and horizon should be calcualted by the calculate_cv_parameters this code returns error.
 
-    total_days = calculate_days(df) + config["test_size"] * 30
-    
-    cv_parameters = calculate_cv_parameters(total_days)
-    try:
-        m = Prophet(**params).fit(df)
-        df_cv = cross_validation(
-            m,
-            initial=cv_parameters["initial"],
-            period=cv_parameters["period"],
-            horizon=cv_parameters["horizon"],
-            parallel="processes"
-        )
-        df_p = performance_metrics(df_cv, rolling_window=1)
-        return df_p['mape'].values[0]
-    except Exception as e:
-        logger.error(f"Error in parameter evaluation: {str(e)}")
-        return float('inf')
-
-def cv_train(df: pd.DataFrame, config: Dict[str, Any]) -> None:
+def train_model(config: Dict[str, Any]) -> Tuple[Prophet, Path, str]:
     """Train Prophet model with cross-validation and hyperparameter tuning.
     
     Args:
-        df: Input DataFrame
         config: Configuration dictionary
+        
+    Returns:
+        Tuple of trained model, model path, and data type (normalized or not)
     """
+    logger.info("Starting model training...")
+    
     try:
+        # Load and prepare data
+        df = load_and_prep_data(config)
+        
         model_id = config["model_id"]
         data_type = "notnorm"
 
@@ -234,45 +199,119 @@ def cv_train(df: pd.DataFrame, config: Dict[str, Any]) -> None:
 
         # Save model and results
         now = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-        model_dir = Path(f"models/{model_id}")
+        results_dir = Path(f"results/{model_id}")
+        results_dir.mkdir(parents=True, exist_ok=True)
         model_name = f"{model_id}_{now}_{data_type}"
         
-        model_dir.mkdir(parents=True, exist_ok=True)
-        dump(auto_model, model_dir / f"{model_name}.joblib")
+        model_path = results_dir / f"{model_name}.joblib"
+        dump(auto_model, model_path)
         
-        
-        with open(model_dir / f"{model_name}.json", "w") as f:
+        with open(results_dir / f"{model_name}_metrics.json", "w") as f:
             json.dump(metrics, f)
 
         # Create visualization
         train_df.columns = ["ds", "y_train"]
         test_df.columns = ["ds", "y_test"]
         preds = forecast[forecast["ds"] >= test_df["ds"].iloc[0]]
-        vis_df = pd.concat([train_df, test_df, preds], ignore_index=True)
-        visualise(vis_df, title=model_id, path_to_save=str(model_dir / model_name))
         
-        logger.info("Training completed successfully")
+        visualization_df = train_df.merge(
+            test_df, on="ds", how="outer"
+        ).merge(
+            preds[["ds", "yhat", "yhat_lower", "yhat_upper"]], on="ds", how="outer"
+        )
+        
+        visualise(
+            visualization_df,
+            f"{model_id} Forecast",
+            f"results/{model_id}/{model_name}_evaluation"
+        )
+        
+        logger.info(f"Model trained and saved successfully at: {model_path}")
+        return auto_model, model_path, data_type
         
     except Exception as e:
         logger.error(f"Error in model training: {str(e)}")
         raise
 
-if __name__ == "__main__":
+def forecast(model_path: Path = None, model: Prophet = None, data_type: str = None, horizon: int = 6) -> None:
+    """Generate forecast using trained model.
+    
+    Args:
+        model_path: Path to the trained model file (ignored if model is provided)
+        model: Trained Prophet model (optional, loaded from model_path if not provided)
+        data_type: Type of data used for training ("norm" or "notnorm")
+        horizon: Prediction horizon in months
+    """
     try:
-        logger.info("Starting demand forecasting pipeline")
+        if model is None:
+            if model_path is None:
+                raise ValueError("Either model or model_path must be provided")
+            
+            model = load(model_path)
+            model_id = model_path.stem
+            data_type = "norm" if "norm" in str(model_path) and "notnorm" not in str(model_path) else "notnorm"
+            logger.info(f"Model loaded from {model_path}")
+        else:
+            if data_type is None:
+                raise ValueError("data_type must be provided when model is provided")
+            model_id = model_path.stem if model_path else "custom_model"
         
-        # Load configuration
-        config = load_config()
-        logger.info("Configuration loaded successfully")
+        logger.info(f"Generating forecast with horizon {horizon} months...")
         
-        # Load and prepare data
-        df = load_and_prep_data(config)
+        # Generate future dataframe for prediction
+        future = model.make_future_dataframe(periods=horizon, freq='ME', include_history=False)
+        forecast_df = model.predict(future)
+
+        # Apply inverse transformation if needed
+        if data_type == "norm":
+            forecast_df['yhat'] = inverse_log_transform(forecast_df['yhat'])
+            forecast_df['yhat_lower'] = inverse_log_transform(forecast_df['yhat_lower'])
+            forecast_df['yhat_upper'] = inverse_log_transform(forecast_df['yhat_upper'])
+            
+        # Set negative values to zero and round up to integers
+        forecast_cols = [col for col in forecast_df.columns if col != "ds"]
+        forecast_df[forecast_cols] = forecast_df[forecast_cols].clip(lower=0)
+        forecast_df[forecast_cols] = np.ceil(forecast_df[forecast_cols])
         
-        # Train model
-        cv_train(df, config)
+        # Prepare output
+        out = forecast_df[["ds", "yhat_lower", "yhat", "yhat_upper"]]
         
-        logger.info("Pipeline completed successfully")
+        # Create output directory and save results
+        results_dir = Path(f"results/forecast_{model_id}")
+        results_dir.mkdir(parents=True, exist_ok=True)
+        
+        out.columns = ["Date", "Worst Case Scenario", "Central Case", "Best Case Scenario"]
+        out.to_excel(f"{results_dir}/forecast_{model_id}.xlsx", index=False)
+        
+        logger.info(f"Forecast generated and saved at: {results_dir}/forecast_{model_id}.xlsx")
+        return out
         
     except Exception as e:
-        logger.error(f"Pipeline failed: {str(e)}")
+        logger.error(f"Error in forecasting: {str(e)}")
+        raise
+
+def main():
+    parser = argparse.ArgumentParser(description="Combined H2S demand training and forecasting")
+    parser.add_argument("--config", type=str, default="config/config.json", help="Path to configuration file")
+    parser.add_argument("--horizon", type=int, default=6, help="Prediction horizon in months (default: 6)")
+    
+    args = parser.parse_args()
+    
+    try:
+        # Load configuration
+        config = load_config(args.config)
+        logger.info(f"Configuration loaded from {args.config}")
+        
+        # Train model
+        logger.info("Starting model training followed by forecasting...")
+        _, model_path, data_type = train_model(config)
+        
+        # Run forecasting
+        forecast(model_path=model_path, data_type=data_type, horizon=args.horizon)
+    
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
         sys.exit(1)
+
+if __name__ == "__main__":
+    main() 
