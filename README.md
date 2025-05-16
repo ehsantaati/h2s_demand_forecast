@@ -2,17 +2,6 @@
 
 A robust and adaptable demand forecasting system for Home To School Transport Service, leveraging machine learning to predict resource needs across eligibility, delivery, complaints, and appeals activities.
 
-## 📋 Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Configuration](#configuration)
-  - [Training and Forecasting](#training-and-forecasting)
-  - [Interactive Analysis](#interactive-analysis)
-- [Model Details](#model-details)
-- [Performance Metrics](#performance-metrics)
 ## 🎯 Overview
 
 This project implements a demand forecasting system for Home To School Transport services. By analysing historical service data, critical path points, and seasonal patterns, the system predicts future resource requirements (permanent, fixed-term, and bank staff) across various service activities.
@@ -29,21 +18,6 @@ This project implements a demand forecasting system for Home To School Transport
 - **Performance Metrics**: Comprehensive model evaluation with MAPE and RMSE
 - **Visualization**: Interactive plots for time series and forecasts
 - **Resource Allocation**: Under development.
-
-## 📁 Project Structure
-
-```
-h2s_demand_forecast/
-├── assets/              # Project assets and images
-├── config/             # Configuration files
-│   └── config.json    # Main configuration file
-├── data/              # Data directory for input files
-├── results/           # All model outputs (models, metrics, forecasts)
-├── model.py           # Combined training and forecasting script
-├── util.py            # Utility functions
-├── modeling.ipynb     # Interactive analysis notebook
-└── requirements.txt   # Python dependencies
-```
 
 ## 🚀 Installation
 
