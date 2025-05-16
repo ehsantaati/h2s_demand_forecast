@@ -38,6 +38,17 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+def calculate_days(df):
+    # Convert the date column to datetime
+    df['date'] = pd.to_datetime(df['ds'])
+    
+    # Calculate the number of days from the minimum to the maximum date
+    min_date = df['ds'].min()
+    max_date = df['ds'].max()
+    num_days = (max_date - min_date).days
+    
+    return num_days
+
 def calculate_cv_parameters(total_days: int, desired_forecast_days: int = 180) -> Dict[str, str]:
   """Calculate optimal cross-validation parameters based on total available data.
     
