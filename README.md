@@ -74,7 +74,6 @@ Create or modify `config/config.json` with your settings:
 {
     "model_id": "h2s_forecast",
     "normalize": false,
-    "normalize": false,
     "test_size": 6,
     "date_column": "Created"
 }

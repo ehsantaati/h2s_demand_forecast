@@ -1,8 +1,7 @@
 data/*
-models/*
-output/*
 __pycache__/
 .vscode/
 tocheckgitignore/
 archive
 results
+results/*
